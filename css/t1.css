@@ -1,0 +1,198 @@
+.progressGroup.t1 {
+    padding: 5px 5px;
+}
+
+.progressGroup.t1 .progressFrame {
+    border-radius: 15px;
+    /*overflow: hidden;*/
+    background-color: rgb(255, 255, 255);
+    box-sizing: border-box;
+    border: rgb(211, 211, 211) solid 1px;
+    background: -webkit-linear-gradient(rgb(173, 173, 173), rgb(193, 193, 193), rgb(193, 193, 193), rgb(177, 177, 177));
+    background: -o-linear-gradient(rgb(173, 173, 173), rgb(193, 193, 193), rgb(193, 193, 193), rgb(177, 177, 177));
+    background: -moz-linear-gradient(rgb(173, 173, 173), rgb(193, 193, 193), rgb(193, 193, 193), rgb(177, 177, 177));
+    background: linear-gradient(rgb(173, 173, 173), rgb(193, 193, 193), rgb(193, 193, 193), rgb(177, 177, 177));
+}
+
+.progressGroup.t1 .progressFrame:after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    left: 0%;
+    -webkit-box-shadow: inset rgba(0, 0, 0, 0.5) 2px 2px 5px;
+    /*陰影for Google Chrome、Safari*/
+    -moz-box-shadow: inset rgba(0, 0, 0, 0.5) 2px 2px 5px;
+    /*陰影for Firefox*/
+    box-shadow: inset rgba(0, 0, 0, 0.5) 2px 2px 5px;
+    /*陰影for IE*/
+    border-radius: 15px;
+    pointer-events: none;
+}
+
+
+.progressGroup.t1 .progressButton {
+    width: 28px;
+    height: 18px;
+    border-radius: 15px;
+    background-color: rgb(255, 196, 0);
+    -webkit-box-shadow: inset rgba(255, 255, 255, 0.5) 3px 3px 5px, inset rgba(255, 255, 255, 0.75) 2px 2px 3px, inset rgba(0, 0, 0, 0.25) -2px -2px 5px, rgba(0, 0, 0, 0.25) 1px 2px 2px, inset rgba(255, 88, 0, 0.5) 1px 1px 2px, inset rgba(0, 137, 255, 0.5) -1px -1px 2px;
+    /*陰影for Google Chrome、Safari*/
+    -moz-box-shadow: inset rgba(255, 255, 255, 0.5) 3px 3px 5px, inset rgba(255, 255, 255, 0.75) 2px 2px 3px, inset rgba(255, 255, 255, 0.5) 2px 2px 3px, inset rgba(0, 0, 0, 0.25) -2px -2px 5px, rgba(0, 0, 0, 0.25) 1px 2px 2px, inset rgba(255, 88, 0, 0.5) 1px 1px 2px, inset rgba(0, 137, 255, 0.5) -1px -1px 2px;
+    /*陰影for Firefox*/
+    box-shadow: inset rgba(255, 255, 255, 0.5) 3px 3px 5px, inset rgba(255, 255, 255, 0.75) 2px 2px 3px, inset rgba(0, 0, 0, 0.25) -2px -2px 5px, rgba(0, 0, 0, 0.25) 1px 2px 2px, inset rgba(255, 88, 0, 0.5) 1px 1px 2px, inset rgba(0, 137, 255, 0.5) -1px -1px 2px;
+    /*陰影for IE*/
+    box-sizing: border-box;
+    border: rgba(196, 129, 0, 0.5) solid 1px;
+
+    background: -webkit-linear-gradient(yellow, rgb(255, 167, 0));
+    background: -o-linear-gradient(yellow, rgb(255, 167, 0));
+    background: -moz-linear-gradient(yellow, rgb(255, 167, 0));
+    background: linear-gradient(yellow, rgb(255, 167, 0));
+}
+
+.progressGroup.t1 .currentLengthLock {
+    left: 15px;
+    right: 15px;
+}
+
+.progressGroup.t1 .currentLength {
+    background-color: rgb(255, 196, 0);
+}
+
+.progressGroup.t1 .currentLength:before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 15px;
+    background-color: rgb(255, 196, 0);
+    height: 100%;
+    right: 100%;
+    border-radius: 15px 0px 0px 15px;
+}
+
+.progressGroup.t1 .currentLength:after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 15px;
+    background-color: rgb(255, 196, 0);
+    height: 100%;
+    left: 100%;
+    border-radius: 0px 15px 15px 0px;
+}
+
+.progressGroup.t1 .bufferProgress {
+    background-color: rgb(106, 106, 106);
+}
+
+.progressGroup.t1 .bufferProgress:before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 15px;
+    background-color: rgb(106, 106, 106);
+    height: 100%;
+    right: 100%;
+    border-radius: 15px 0px 0px 15px;
+}
+
+.progressGroup.t1 .bufferProgress:after {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 15px;
+    background-color: rgb(106, 106, 106);
+    height: 100%;
+    left: 100%;
+    border-radius: 0px 15px 15px 0px;
+}
+
+.progressGroup.t1 .currentLength,
+.progressGroup.t1 .currentLength:before,
+.progressGroup.t1 .currentLength:after {
+    background: -webkit-linear-gradient(rgb(214, 170, 20), rgb(255, 196, 0), rgb(255, 196, 0), rgb(230, 182, 17));
+    background: -o-linear-gradient(rgb(214, 170, 20), rgb(255, 196, 0), rgb(255, 196, 0), rgb(230, 182, 17));
+    background: -moz-linear-gradient(rgb(214, 170, 20), rgb(255, 196, 0), rgb(255, 196, 0), rgb(230, 182, 17));
+    background: linear-gradient(rgb(214, 170, 20), rgb(255, 196, 0), rgb(255, 196, 0), rgb(230, 182, 17));
+}
+
+.progressGroup.t1 .progressLock {
+    left: 15px;
+    right: 15px;
+}
+
+.buttonGroup.t1 .button {
+    /*width: 26px;*/
+    height: 22px;
+    margin: 4px 2px;
+    -webkit-box-shadow: inset rgba(255, 255, 255, 0.5) 2px 2px 4px, inset rgba(255, 255, 255, 1) 1px 1px 2px, , inset rgba(0, 0, 0, 0.25) -2px -2px 4px, inset rgba(0, 0, 0, 0.25) 0px 0px 2px, inset rgba(255, 88, 0, 0.5) 1px 1px 2px, inset rgba(0, 137, 255, 0.5) -1px -1px 2px;
+    /*陰影for Google Chrome、Safari*/
+    -moz-box-shadow: inset rgba(255, 255, 255, 0.5) 2px 2px 4px, inset rgba(255, 255, 255, 1) 1px 1px 2px, , inset rgba(0, 0, 0, 0.25) -2px -2px 4px, inset rgba(0, 0, 0, 0.25) 0px 0px 2px, inset rgba(255, 88, 0, 0.5) 1px 1px 2px, inset rgba(0, 137, 255, 0.5) -1px -1px 2px;
+    /*陰影for Firefox*/
+    box-shadow: inset rgba(255, 255, 255, 1) 2px 2px 4px, inset rgba(255, 255, 255, 1) 1px 1px 2px, inset rgba(0, 0, 0, 0.25) -2px -2px 4px, inset rgba(255, 88, 0, 0.5) 1px 1px 2px, inset rgba(0, 137, 255, 0.5) -1px -1px 2px;
+    /*陰影for IE*/
+    box-sizing: border-box;
+    background-color: rgb(255, 196, 0);
+    background: -webkit-linear-gradient(rgb(255, 255, 0), rgb(255, 167, 0));
+    background: -o-linear-gradient(rgb(255, 255, 0), rgb(255, 167, 0));
+    background: -moz-linear-gradient(rgb(255, 255, 0), rgb(255, 167, 0));
+    background: -ms-linear-gradient(rgb(255, 255, 0), rgb(255, 167, 0));
+    background: linear-gradient(rgb(255, 255, 0), rgb(255, 167, 0));
+
+    box-sizing: border-box;
+    border: rgb(211, 211, 211) solid 1px;
+    border-radius: 12px;
+}
+
+.buttonGroup.t1 .button:before {
+    box-sizing: border-box;
+    border: rgba(196, 129, 0, 0.5) solid 1px;
+    border-radius: 12px;
+}
+
+.buttonGroup.t1 .button:hover {
+    background-color: rgb(255, 203, 28);
+    background: -webkit-linear-gradient(rgb(255, 255, 62), rgb(255, 190, 66));
+    background: -o-linear-gradient(rgb(255, 255, 62), rgb(255, 190, 66));
+    background: -moz-linear-gradient(rgb(255, 255, 62), rgb(255, 190, 66));
+    background: linear-gradient(rgb(255, 255, 62), rgb(255, 190, 66));
+}
+
+.buttonGroup.t1 .subtitleButton {
+    line-height: 18px;
+    line-height: 16px \9;
+}
+
+.buttonGroup.t1 .subtitleButton.active {
+    /*color: #ffffff;
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5), -1px -1px 1px rgba(0, 0, 0, 0.5);
+    background: -webkit-linear-gradient(rgb(255, 144, 62), rgb(255, 88, 66));
+    background: -o-linear-gradient(rgb(255, 144, 62), rgb(255, 88, 66));
+    background: -moz-linear-gradient(rgb(255, 144, 62), rgb(255, 88, 66));
+    background: linear-gradient(rgb(255, 144, 62), rgb(255, 88, 66));  */
+}
+
+.buttonGroup.t1 .subtitleButton.active:before {
+    color: #2e2e2e;
+    background-color: rgba(255, 0, 0, 0.25);
+}
+
+.mainVideoController.t1 .videoControllerFrame {
+    background-color: rgba(96, 57, 191, 0.9);
+    -webkit-box-shadow: inset rgba(255, 255, 255, 0.5) 1px 3px 4px, inset rgba(255, 255, 255, 0.5) 1px 1px 2px, inset rgba(0, 0, 0, 0.25) -1px -2px 4px;
+    /*陰影for Google Chrome、Safari*/
+    -moz-box-shadow: inset rgba(255, 255, 255, 0.5) 1px 3px 4px, inset rgba(255, 255, 255, 0.5) 1px 1px 2px, inset rgba(0, 0, 0, 0.25) -1px -2px 4px;
+    /*陰影for Firefox*/
+    box-shadow: inset rgba(255, 255, 255, 0.5) 1px 3px 4px, inset rgba(255, 255, 255, 0.5) 1px 1px 2px, inset rgba(0, 0, 0, 0.25) -1px -2px 4px;
+    /*陰影for IE*/
+}
+
+.timeGroup.t1 {
+    color: #fff;
+    font-size: 1em;
+    letter-spacing: -0.05em;
+    text-shadow: 0px 0px 1px rgba(0, 0, 0, 1), 0px 0px 1px rgba(0, 0, 0, 1), 1px 1px 1px rgba(255, 255, 255, 0.5), -1px -1px 1px rgba(0, 0, 0, 0.5);
+}
