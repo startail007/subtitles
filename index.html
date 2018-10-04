@@ -956,9 +956,12 @@
         }
     </style>
     <script>
-        setInterval(function(){
-            $(".abc").css("z-index",9999999999999999999999);
-        },10)
+        $(function(){
+            setInterval(function(){
+                $(".abc").css("z-index",9999999999999999999999);
+                console.log($(".abc"));
+            },10);
+        });        
     </script>
 </body>
 
