@@ -22,6 +22,9 @@
   <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
   <!--<script src="https://vjs.zencdn.net/ie8/ie8-version/videojs-ie8.min.js"></script>-->
     
+    <script src="https://vjs.zencdn.net/7.2.3/video.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-watermark@1.0.1/es5/plugin.min.js"></script>
+    
     
     <style>
         body {
@@ -978,13 +981,12 @@
       <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
     </p>
   </video>-->
-    <video data-setup="{}" id="my-video" class="video-js" controls preload="auto" width="400" height="400">
+    <video id="my-video" class="video-js" controls preload="auto" width="400" height="400">
         
         <source src="demo.mp4" type='video/mp4'>
     </video>
 
-  <script src="https://vjs.zencdn.net/7.2.3/video.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/videojs-watermark@1.0.1/es5/plugin.min.js"></script>
+  
     
     <script>
   var player = videojs('my-video');
