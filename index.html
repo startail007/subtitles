@@ -20,7 +20,7 @@
     <link href="https://vjs.zencdn.net/7.2.3/video-js.css" rel="stylesheet">
 
   <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
-  <script src="https://vjs.zencdn.net/ie8/ie8-version/videojs-ie8.min.js"></script>
+  <!--<script src="https://vjs.zencdn.net/ie8/ie8-version/videojs-ie8.min.js"></script>-->
     
     
     <style>
@@ -978,7 +978,10 @@
       <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
     </p>
   </video>-->
-    <video poster="MY_VIDEO_POSTER.jpg" data-setup="{}" id="my-video" class="video-js" controls preload="auto" src="demo.mp4" width="400px" height="400px" controls="controls"></video>
+    <video data-setup="{}" id="my-video" class="video-js" controls preload="auto" width="400" height="400">
+        
+        <source src="demo.mp4" type='video/mp4'>
+    </video>
 
   <script src="https://vjs.zencdn.net/7.2.3/video.js"></script>
     
