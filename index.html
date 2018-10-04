@@ -999,6 +999,18 @@
             doFullScreen(document.getElementById("myvideo"));
         });
         
+        window.addEventListener("orientationchange",onOrientationchange ,false);
+   function onOrientationchange() {
+      if (window.orientation === 180 || window.orientation === 0) {
+              //直式
+          alert("直式")
+      }
+      if (window.orientation === 90 || window.orientation === -90 ){
+              //橫式
+          alert("橫式")
+      } 
+   }
+        
         function doFullScreen(elem){
          // 取得要顯示為全螢幕的容器
          //var elem = $("#fullScreenTarget")[0];
