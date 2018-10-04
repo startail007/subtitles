@@ -986,7 +986,7 @@
         });  */
         $(".abc").click(function(){
             //alert("aaa");
-            var elem = document.getElementById("myvideo");
+            /*var elem = document.getElementById("myvideo");
             if (elem.requestFullscreen) {
               elem.requestFullscreen();
             } else if (elem.msRequestFullscreen) {
@@ -995,8 +995,41 @@
               elem.mozRequestFullScreen();
             } else if (elem.webkitRequestFullscreen) {
               elem.webkitRequestFullscreen();
-            }
+            }*/
+            doFullScreen(document.getElementById("myvideo"));
         });
+        
+        function doFullScreen(elem){
+         // 取得要顯示為全螢幕的容器
+         //var elem = $("#fullScreenTarget")[0];
+
+         var isFullScreen = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
+
+         // 目前非全螢幕狀態 開啟全螢幕
+         if( !isFullScreen ){
+          if (elem.requestFullscreen) {
+           elem.requestFullscreen();
+          } else if (elem.msRequestFullscreen) {
+           elem.msRequestFullscreen();
+          } else if (elem.mozRequestFullScreen) {
+           elem.mozRequestFullScreen();
+          } else if (elem.webkitRequestFullscreen) {
+           elem.webkitRequestFullscreen();
+          }
+         }
+         // 目前為全螢幕狀態 關閉全螢幕
+         else{
+          if (document.exitFullscreen) {
+            document.exitFullscreen();
+          } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+          }
+         }
+        }
         
     </script>
 </body>
