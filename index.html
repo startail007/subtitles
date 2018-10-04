@@ -984,7 +984,13 @@
     </video>
 
   <script src="https://vjs.zencdn.net/7.2.3/video.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/videojs-watermark@2.0.0/es5/plugin.min.js"></script>
     
+    <script>
+  var player = videojs('my-video');
+
+  player.watermark();
+</script>
     
     <style>
         #myvideo{
