@@ -1057,7 +1057,13 @@
   
     
     <script>
-  var player = videojs('my-video');
+  var player = videojs('my-video', {
+  html5: {
+    hls: {
+      withCredentials: true
+    }
+  }
+});
 /*player.watermark({
     file: 'https://www.designevo.com/res/templates/thumb_small/colorful-and-eye-shaped-lens.png',
     xpos: 50,
