@@ -1064,6 +1064,11 @@
     }
   }
 });
+        player.hls.xhr.beforeRequest = function(options) {
+  //options.uri = options.uri.replace('example.com', 'foo.com');
+console.log(options);
+  return options;
+};
 /*player.watermark({
     file: 'https://www.designevo.com/res/templates/thumb_small/colorful-and-eye-shaped-lens.png',
     xpos: 50,
