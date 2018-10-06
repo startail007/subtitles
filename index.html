@@ -1085,24 +1085,11 @@ console.log(options);
   </div>
     
      <script>         
-         var aggdPlugin = ChimeePlayer.popupFactory({
-  name: 'time-ad',
-  className: 'time-ad',
-  title: false,
-  body: '<em>广告示例</em><a href="https://jia.360.cn" target="_blank"><img src="https://p.ssl.qhimg.com/t018fe4570caeb23e44.png"></a>',
-  offset: '0px 10px auto auto',
-  operable: false
-});
-ChimeePlayer.install(aggdPlugin);
 
 var player = new ChimeePlayer({
   wrapper: '.chimee-container',
   src: 'https://135zyv4.xw0371.com/2018/07/28/QEVBRgqY93r3sxzM/playlist.m3u8',
-  isLive: false,
-  box:'native',
-  autoplay: false,
-  controls: true,
-  plugin: [aggdPlugin.name]
+  autoplay: true
 });
 </script>
     
