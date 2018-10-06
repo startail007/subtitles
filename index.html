@@ -26,7 +26,7 @@
     <script src="https://cdn.jsdelivr.net/npm/videojs-watermark@1.0.1/es5/plugin.min.js"></script>-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.7.3/video-js.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.7.3/video.js"></script>
-<script src="https://video-dev.github.io/hls.js/latest/dist/hls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     
     <!--<link href="css/videojs.watermark.css" rel="stylesheet">    
     <script src="js/videojs.watermark.js"></script>-->
@@ -987,6 +987,31 @@
       <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
     </p>
   </video>-->
+    
+    <video id="video"></video>
+<script>
+  var video = document.getElementById('video');
+  if(Hls.isSupported()) {
+    var hls = new Hls();
+    hls.loadSource('https://135zyv4.xw0371.com/2018/07/28/QEVBRgqY93r3sxzM/playlist.m3u8');
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED,function() {
+      video.play();
+  });
+ }
+ // hls.js is not supported on platforms that do not have Media Source Extensions (MSE) enabled.
+ // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element throught the `src` property.
+ // This is using the built-in support of the plain video element, without using hls.js.
+ // Note: it would be more normal to wait on the 'canplay' event below however on Safari (where you are most likely to find built-in HLS support) the video.src URL must be on the user-driven
+ // white-list before a 'canplay' event will be emitted; the last video event that can be reliably listened-for when the URL is not on the white-list is 'loadedmetadata'.
+  else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = 'https://135zyv4.xw0371.com/2018/07/28/QEVBRgqY93r3sxzM/playlist.m3u8';
+    video.addEventListener('loadedmetadata',function() {
+      video.play();
+    });
+  }
+</script>
+    
     <!--<video data-setup='{}' id="my-video" class="video-js" controls preload="auto" width="400" height="400">-->
     <video data-setup='{}' id="my-video" class="video-js" autoplay controls preload="auto" width="400" height="400" webkit-playsinline="true" playsinline="true" x5-video-player-type="h5" x5-video-player-fullscreen="true" x-webkit-airplay="allow" x5-video-orientation="portraint">    
         <!--<source src="demo.mp4" type='video/mp4'>-->
