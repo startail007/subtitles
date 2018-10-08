@@ -1077,14 +1077,15 @@
     
     <script>
 	    videojs.options.flash.swf = '/js/video-js.swf';
-  var player = videojs('my-video'/*, {
-  html5: {
+  var player = videojs('my-video', {
+  /*html5: {
     hls: {
       withCredentials: true,
       overrideNative: true
     }
-  }
-}*/);
+  }*/
+	  techOrder: ['flash'],
+});
 	    
         /*videojs.Hls.xhr.beforeRequest = function(options) {
   //options.uri = options.uri.replace('example.com', 'foo.com');
