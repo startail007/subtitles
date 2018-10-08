@@ -1076,6 +1076,7 @@
   
     
     <script>
+	    videojs.options.flash.swf = '/video-js.swf';
   var player = videojs('my-video'/*, {
   html5: {
     hls: {
@@ -1084,6 +1085,7 @@
     }
   }
 }*/);
+	    
         /*videojs.Hls.xhr.beforeRequest = function(options) {
   //options.uri = options.uri.replace('example.com', 'foo.com');
 console.log(options);
