@@ -28,9 +28,10 @@
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.2.4/video-js.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.2.4/video.js"></script>	
-<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.12.1/ie8/videojs-ie8.min.js"></script>
+<script src="https://cdn.streamroot.io/videojs-hlsjs-plugin/1/stable/videojs-hlsjs-plugin.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.12.1/ie8/videojs-ie8.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-flash/2.1.2/videojs-flash.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.14.1/videojs-contrib-hls.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.14.1/videojs-contrib-hls.js"></script>-->
 	
     	<!--<link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.3.3/video-js.css" rel="stylesheet">
 	<script src="https://cdn.bootcss.com/video.js/6.3.3/ie8/videojs-ie8.min.js"></script>
@@ -1063,7 +1064,7 @@
     </style>
     
     <!--<video data-setup='{}' id="my-video" class="video-js" controls preload="auto" width="400" height="400">-->
-    <video data-setup='{"techOrder": ["flash"]}' id="my-video" class="video-js" autoplay controls preload="auto" width="400" height="400" webkit-playsinline="true" playsinline="true" x5-video-player-type="h5" x5-video-player-fullscreen="true" x-webkit-airplay="allow" x5-video-orientation="portraint">    
+    <video data-setup='{}' id="my-video" class="video-js" autoplay controls preload="auto" width="400" height="400" webkit-playsinline="true" playsinline="true" x5-video-player-type="h5" x5-video-player-fullscreen="true" x-webkit-airplay="allow" x5-video-orientation="portraint">    
         <!--<source src="demo.mp4" type='video/mp4'>-->
         <!--<source src="https://135zyv4.xw0371.com/2018/07/28/QEVBRgqY93r3sxzM/playlist.m3u8" type='application/x-mpegURL'>-->
         <!--<source src="https://135zyv4.xw0371.com/2018/07/31/vegY3nLWw7UsHQRU/playlist.m3u8" type='application/x-mpegURL'>--> 
@@ -1082,10 +1083,10 @@
       overrideNative: true
     }
   }*/
-	  techOrder: ['flash'],
+	  /*techOrder: ['flash'],
 	  flash: {
             swf: 'js/video-js.swf'
-          }
+          }*/
 });
 	    
         /*videojs.Hls.xhr.beforeRequest = function(options) {
