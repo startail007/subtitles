@@ -1071,19 +1071,6 @@
 	   <!--<source src="http://vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>--> 
     </video>
     <div class="video003" style="width: 100%;height: 500px;"></div>
-    <script>
-    var videoObject = {
-		container: '.video003',//“#”代表容器的ID，“.”或“”代表容器的class
-		variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
-		autoplay:true,//自动播放	    	
-		/*html5m3u8:true,*/
-		video:"http://iqiyi.com-v-iqiyi.com/20181005/7612_a4e83522/index.m3u8"
-	};
-	var player=new ckplayer(videoObject);
-	    player.V.controls = "";
-	
-	console.log(player);
-    </script>
 
   
     
@@ -1118,6 +1105,21 @@ console.log(options);
         
         
 </script>
+	
+	
+    <script>
+    var videoObject = {
+		container: '.video003',//“#”代表容器的ID，“.”或“”代表容器的class
+		variable: 'player',//该属性必需设置，值等于下面的new chplayer()的对象
+		autoplay:true,//自动播放	    	
+		/*html5m3u8:true,*/
+		video:"http://iqiyi.com-v-iqiyi.com/20181005/7612_a4e83522/index.m3u8"
+	};
+	var player=new ckplayer(videoObject);
+	    player.V.controls = "";
+	
+	console.log(player);
+    </script>
     
     <!--<div class="chimee-container">
     <video tabindex="-1"></video>
