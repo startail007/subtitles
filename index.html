@@ -1,8 +1,10 @@
 <!DOCTYPE html>
+<?php
+header("Content-Security-Policy: default-src *; img-src https:; frame-src 'none'");
+?>
 <html>
 
 <head>
-	Content-Security-Policy-Report-Only: default-src https:; report-uri /csp-violation-report-endpoint/
     <title>Untitled Document</title>	
     <meta charset="UTF-8">
     <meta name="description" content="">
