@@ -1081,6 +1081,11 @@
     
     <script>
   var player = videojs('my-video', {
+html5: {
+  hls: {
+    withCredentials: true
+  }
+}
   /*html5: {
     hls: {
       withCredentials: true,
