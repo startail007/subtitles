@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Untitled Document</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+</head>
+
+<body>
+    <canvas id="canvas" width="600" height="600"></canvas>
+</body>
+
+<!--<script>
+    let canvas, ctx, w, h, particles;
+
+    function Spark(options) {
+        options = options || {};
+        this.x = options.x || w * 0.5;
+        this.y = options.y || h * 0.5;
+        this.v = options.v || {
+            direct: Math.random() * Math.PI * 2,
+            weight: Math.random() * 14 + 2,
+            friction: 0.88+0.06
+        };
+        this.a = options.a || {
+            change: Math.random() * 0.4 - 0.2,
+            min: this.v.direct - Math.PI * 0.4,
+            max: this.v.direct + Math.PI * 0.4
+        };
+        this.g = options.g || {
+            direct: Math.PI * 0.5 + (Math.random() * 0.4 - 0.2),
+            weight: Math.random() * 0.25 + 0.25
+        };
+        this.width = options.width || Math.random() * 3;
+        this.lifespan = options.lifespan || Math.round(Math.random() * 25 + 50);
+        this.maxlife = this.lifespan;
+        this.color = options.color || '#16d9d9';
+        this.prev = {
+            x: this.x,
+            y: this.y
+        };
+
+        this.update = function(index, array) {
+            this.prev = {
+                x: this.x,
+                y: this.y
+            };
+            this.x += Math.cos(this.v.direct) * this.v.weight;
+            this.x += Math.cos(this.g.direct) * this.g.weight;
+            this.y += Math.sin(this.v.direct) * this.v.weight;
+            this.y += Math.sin(this.g.direct) * this.g.weight;
+            this.v.weight > 0.2 && (this.v.weight *= this.v.friction);
+            this.v.direct += this.a.change;
+            (this.v.direct > this.a.max || this.v.direct < this.a.min) && (this.a.change *= -1);
+            this.lifespan > 0 && this.lifespan--;
+            this.lifespan <= 0 && this.remove(index, array);
+        }
+
+        this.render = function(ctx) {
+            if (this.lifespan <= 0) return;
+            ctx.beginPath();
+            ctx.globalAlpha = this.lifespan / this.maxlife;
+            ctx.strokeStyle = this.color;
+            ctx.lineWidth = this.width;
+            ctx.moveTo(this.x, this.y);
+            ctx.lineTo(this.prev.x, this.prev.y);
+            ctx.stroke();
+            ctx.closePath();
+        }
+
+        this.remove = function(index, array) {
+            array.splice(index, 1);
+        }
+    }
+
+    function Particles(options) {
+        options = options || {};
+        this.max = options.max || Math.round(Math.random() * 10 + 10);
+        this.sparks = [...new Array(this.max)].map(() => new Spark(options));
+
+        this.update = function() {
+            this.sparks.forEach((s, i) => s.update(i, this.sparks));
+        }
+
+        this.render = function(ctx) {
+            this.sparks.forEach(s => s.render(ctx));
+        }
+    }
+
+    function update() {
+        particles.forEach(p => p.update());
+    }
+
+    function render() {
+        ctx.globalCompositeOperation = 'source-over';
+        /*ctx.globalAlpha = 1;
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, w, h);*/
+        ctx.clearRect(0, 0, w, h);
+        ctx.globalCompositeOperation = 'screen';
+        particles.forEach(p => p.render(ctx));
+    }
+
+    function loop() {
+        update();
+        render();
+        requestAnimationFrame(loop);
+    }
+    (function() {
+        //
+        canvas = document.getElementById('canvas');
+        ctx = canvas.getContext('2d');
+        w = window.innerWidth;
+        h = window.innerHeight;
+        canvas.width = w;
+        canvas.height = h;
+        particles = [];
+        canvas.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            particles.push(new Particles({
+                x: x,
+                y: y
+            }));
+        });
+        loop();
+    })()
+</script>-->
+<script type="text/javascript">
+
+    //向量
+    var vector2D = function (x, y) {
+        this.x = x;
+        this.y = y;
+        this.length = function () {
+            return Math.sqrt(this.x * this.x + this.y * this.y);
+        }
+        this.dot = function (v) {
+            return this.x * v.x + this.y * v.y
+        }
+        this.cross = function (v) {
+            return this.x * v.y - this.y * v.x;
+        }
+        this.scale = function (n) {
+            return new vector2D(this.x * n, this.y * n);
+        }
+        this.add = function (v) {
+            return new vector2D(this.x + v.x, this.y + v.y);
+        }
+        this.sub = function (v) {
+            return new vector2D(this.x - v.x, this.y - v.y);
+        }
+        this.swap = function () {
+            return new vector2D(-this.y, this.x);
+        }
+        this.projection = function (v) {
+            var temp = this.dot(v) / v.length();
+            return new vector2D(v.x * temp, v.y * temp);
+        }
+        this.normalize = function () {
+            var r = this.length();
+            return new vector2D(this.x / r, this.y / r);
+        }
+        this.reflection = function (f) {
+            var fn = f.normalize();
+            var v0_u = this.projection(fn);
+            var v0_v = this.sub(v0_u);
+            var v1 = v0_v.scale(-1).add(v0_u).normalize();
+            return v1;
+        }
+        this.refraction = function (n, f) {
+            var fn = f.normalize();
+            var fnv = fn.swap();
+            var n0 = n;
+            var temp = this.sub(this.projection(fn)).cross(fn);
+            if (temp > 0) {
+                fn = fn.scale(-1);
+                fnv = fn.swap();
+            }
+            var v0_u = this.projection(fn);
+            var v0_v = this.sub(v0_u);
+            /*var v0_temp = new vector2D(
+                v0_u.length() * (v0_u.cross(fnv) > 0 ? 1 : -1),
+                v0_v.length() * (v0_v.cross(fn) > 0 ? 1 : -1)
+            );
+            var s = n * v0_temp.x / v0_temp.length();*/
+            var v0_temp = new vector2D(v0_u.length(), v0_v.length());
+            var s = n0 * (v0_u.cross(fnv) > 0 ? 1 : -1) * v0_temp.x / v0_temp.length();
+            if (Math.abs(s) >= 1) {
+                return null;
+            }
+            var v1_temp = new vector2D(s, Math.sqrt(1 - s * s));
+            var v1 = new vector2D(
+                v1_temp.x * fn.x + v1_temp.y * fnv.x,
+                v1_temp.x * fn.y + v1_temp.y * fnv.y
+            );
+            return v1;
+        }
+        this.rotate = function (pAngle) {
+            var cos0 = Math.cos(pAngle);
+            var sin0 = Math.sin(pAngle);
+            return new vector2D(this.x * cos0 - this.y * sin0, this.y * cos0 + this.x * sin0);
+        }
+        this.interpolationV= function (pV, t) {
+            var v0 = pV.scale(t);
+            return new vector2D(this.x + v0.x, this.y + v0.y);
+        }
+        this.interpolation= function (pP, t) {
+            var v = pP.sub(this);
+            return this.interpolationV(v, t);
+        }
+    }
+
+    function intersection(pP0S, pP0E, pP1S, pP1E) {
+        var v0 = pP0E.sub(pP0S);
+        var v1 = pP1E.sub(pP1S);
+        return intersectionPV(pP0S, v0, pP1S, v1);
+    }
+
+    function intersectionPV(pP0, pV0, pP1, pV1) {
+        var c1 = pV0.cross(pV1);
+        var v2 = pP1.sub(pP0);
+        var c2 = v2.cross(pV1);
+        if (c1 == 0) {
+            /*if (c2 == 0) {
+                return "兩線重疊";
+            }else{                
+                return "兩線平行但不重疊";
+            }*/
+            return null;
+        }
+        var tv = pP1.sub(pP0);
+        return {
+            t0: tv.cross(pV1) / c1,
+            t1: tv.cross(pV0) / c1
+        };
+    }
+
+    var canvas, ctx, w, h, particles,x,y;
+    var polygons = [];
+    polygons.push({
+        points:[new vector2D(50,50),new vector2D(175,75),new vector2D(50,150)],
+        color:"#999999",
+        type:"fill"
+    });
+    polygons.push({
+        points:[new vector2D(250,150),new vector2D(375,175),new vector2D(250,250)],
+        color:"#999999",
+        type:"fill"
+    });
+    polygons.push({
+        points:[new vector2D(375,250),new vector2D(475,375),new vector2D(375,450)],
+        color:"#999999",
+        type:"fill"
+    });
+    /*polygons.push({
+        points:[new vector2D(350,250),new vector2D(450,250),new vector2D(450,350),new vector2D(350,350)],
+        pointTypes:[0,0,0,0],
+        lineTypes:[0,0,0,0],
+        linePoints:[[],[],[],[]],
+        color:"#999999",
+        type:"fill"
+    });
+
+    polygons.push({
+        points:[new vector2D(250,250),new vector2D(350,250),new vector2D(350,350),new vector2D(250,350)],
+        pointTypes:[0,0,0,0],
+        lineTypes:[0,0,0,0],
+        linePoints:[[],[],[],[]],
+        color:"#999999",
+        type:"fill"
+    });*/
+
+
+    polygons.push({
+        points:[new vector2D(0,0),new vector2D(600,0),new vector2D(600,20),new vector2D(0,20)],
+        color:"#999999",
+        type:"fill"
+    });
+    polygons.push({
+        points:[new vector2D(580,20),new vector2D(600,20),new vector2D(600,580),new vector2D(580,580)],
+        color:"#999999",
+        type:"fill"
+    });
+    polygons.push({
+        points:[new vector2D(0,580),new vector2D(600,580),new vector2D(600,600),new vector2D(0,600)],
+        color:"#999999",
+        type:"fill"
+    });   
+    polygons.push({
+        points:[new vector2D(0,20),new vector2D(20,20),new vector2D(20,580),new vector2D(0,580)],
+        color:"#999999",
+        type:"fill"
+    });
+    /*polygons.push({
+        points:[new vector2D(600,600),new vector2D(0,600)],
+        pointTypes:[0,0],
+        lineTypes:[0,0],
+        linePoints:[[],[]],
+        color:"#999999",
+        type:"fill"
+    });
+    polygons.push({
+        points:[new vector2D(0,600),new vector2D(0,0)],
+        pointTypes:[0,0],
+        lineTypes:[0,0],
+        linePoints:[[],[]],
+        color:"#999999",
+        type:"fill"
+    });*/
+
+
+    var lines = [];
+    var lightPolygons = [];
+    function update(){
+
+    }
+    function IsPointInTriangle(pointP,pointA_,pointB_,pointC_)
+    {
+        var PA = pointA_.sub(pointP);
+        var PB = pointB_.sub(pointP);
+        var PC = pointC_.sub(pointP);
+        var t1 = PA.cross(PB);
+        var t2 = PB.cross(PC);
+        var t3 = PC.cross(PA);
+        return t1*t2 > 0 && t1*t3 > 0;
+    }
+    function IsPointAtSameSideOfLine(pointM, pointN, pointA, pointB)
+    {
+        var AB = pointB.sub(pointA);
+        var AM = pointM.sub(pointA);
+        var AN = pointN.sub(pointA);
+        return AB.cross(AM) * AB.cross(AN) >= 0;
+    }
+    function IsPointAtLine(pointM, pointN, pointA, pointB)
+    {
+        var AB = pointB.sub(pointA);
+        var AM = pointM.sub(pointA);
+        var AN = pointN.sub(pointA);
+        return AB.cross(AM) * AB.cross(AN) == 0;
+    }
+    function IsLineAtLine0(pointM, pointN, pointA, pointB)
+    {
+        var obj = intersection(pointM, pointN, pointA, pointB);
+        if(obj && obj.t0>0 && obj.t0<1 && obj.t1>0 && obj.t1<1){
+            return obj;
+        }else{
+            return null;
+        }
+    }
+    function IsLineAtLine1(pointM, pointN, pointA, pointB)
+    {
+        var obj = intersection(pointM, pointN, pointA, pointB);
+        if(obj && obj.t0>=0 && obj.t0<=1 && obj.t1>=0 && obj.t1<=1){
+            return obj;
+        }else{
+            return null;
+        }
+    }
+    function IsLineAtLine2(pointM, pointN, pointA, pointB)
+    {
+        var obj = intersection(pointM, pointN, pointA, pointB);
+        if(obj && obj.t0>=0 && obj.t0<1 && obj.t1>=0 && obj.t1<=1){
+            return obj;
+        }else{
+            return null;
+        }
+    }
+    function render() {
+        //ctx.globalCompositeOperation = 'source-over';
+        /*ctx.globalAlpha = 1;
+        ctx.fillStyle = '#000000';
+        ctx.fillRect(0, 0, w, h);*/
+        ctx.clearRect(0, 0, w, h);
+        //ctx.globalCompositeOperation = 'screen';
+
+        
+        var mp = new vector2D(x,y);
+
+        for(var temp in polygons){
+            var polygon = polygons[temp];
+            var len = polygon.points.length;
+            polygon.pointTypes = [];
+            polygon.lineTypes = [];
+            polygon.linePoints = [];
+            for(var i = 0;i<len;i++){ 
+                polygon.pointTypes[i] = 0;
+                polygon.lineTypes[i] = 0;
+                polygon.linePoints[i] = [];
+            }
+        }
+        //歸零
+
+        /*for(var temp in polygons){
+            var polygon = polygons[temp];
+            var len = polygon.points.length;
+            for(var i = 0;i<len;i++){ 
+                var p0 = polygon.points[(i-1+len)%len];
+                var p1 = polygon.points[(i+1)%len];
+                var obj01 = IsLineAtLine0(mp,polygon.points[i],p0,p1);
+                if(obj01!=null){
+                    polygon.pointTypes[i] = 1;
+                }else{
+                    var bool2 = true;
+                    var len0 = polygon.points.length;
+                    for(var j = 0;j<len0;j++){
+                        if(i!=j){
+                            var AB = polygon.points[i].sub(mp);
+                            var AM = polygon.points[j].sub(mp);
+                            if(AB.cross(AM)==0 && AM.length()<AB.length()){
+                                bool2 = false;
+                                break;
+                            }
+                        }
+                    }
+                    if(!bool2){
+                        polygon.pointTypes[i] = 3;
+                    }else{
+                        var bool0 = IsPointInTriangle(polygon.points[i],mp,p0,p1);
+                        if(bool0){
+                            polygon.pointTypes[i] = 2;
+                        }
+                    }
+                }
+            }
+        }*/        
+        //單獨個別矩形判斷
+
+        for(var temp in polygons){   
+            var polygon = polygons[temp]; 
+            var len = polygon.points.length;
+            for(var i = 0;i<len;i++){      
+                var p0 = polygon.points[i];
+                var p1 = polygon.points[(i+1)%len];
+                var AB = p0.sub(mp);
+                var AM = p1.sub(mp);
+                if(AB.cross(AM)>=0){
+                    polygon.lineTypes[i] = 1;
+                }/*else{
+                    var c0 = p0.add(p1).scale(0.5);
+                    for(var j = 0;j<len;j++){ 
+                        var p3 = polygon.points[j];
+                        var p4 = polygon.points[(j+1)%len];
+                        if(i!=j){
+                            var obj01 = IsLineAtLine0(mp,c0,p3,p4);
+                            if(obj01!=null){
+                                polygon.lineTypes[i] = 1;
+                            }
+                        }
+                    }
+                }*/  
+            }
+        }        
+        //單獨個別矩形判斷
+
+
+
+        for(var temp in polygons){   
+            var polygon = polygons[temp]; 
+            var len = polygon.points.length;
+            for(var i = 0;i<len;i++){      
+                var lineTypes0 = polygon.lineTypes[(i-1+len)%len];
+                var lineTypes1 = polygon.lineTypes[i];
+                if(lineTypes0==1 && lineTypes1==1){
+                    polygon.pointTypes[i] = 1;
+                }
+                //console.log(lineTypes0,lineTypes1);
+            }
+        }
+
+        for(var temp in polygons){
+            var polygon0 = polygons[temp];
+            var len = polygon0.points.length;
+            for(var i = 0;i<len;i++){
+                if(polygon0.pointTypes[i]==0){
+                    foo:{
+                        for(var temp0 in polygons){   
+                            if(temp!=temp0){
+                                var polygon1 = polygons[temp0];
+                                var len1 = polygon1.points.length;
+                                for(var j = 0;j<len1;j++){
+                                    if(polygon1.lineTypes[j]==0){
+                                        var p0 = polygon1.points[j];
+                                        var p1 = polygon1.points[(j+1)%len1];
+                                        //console.log(mp,polygon.points[i],p0,p1);
+                                        var obj01 = IsLineAtLine2(mp,polygon0.points[i],p0,p1);
+                                        if(obj01!=null){
+                                            polygon0.pointTypes[i] = 1;
+                                            break foo;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }                 
+            }
+        }
+
+        /*for(var temp in polygons){   
+            var polygon = polygons[temp]; 
+            var len = polygon.points.length;
+            for(var i = 0;i<len;i++){      
+                //var lineTypes0 = polygon.lineTypes[(i-1+len)%len];
+                var lineTypes1 = polygon.lineTypes[i];
+                var pointTypes0 = polygon.pointTypes[i];
+                var pointTypes1 = polygon.pointTypes[(i+1)%len];
+                if(lineTypes1==0 && pointTypes0==1 && pointTypes1==1){
+                    polygon.lineTypes[i] = 1;
+                }
+                //console.log(lineTypes0,lineTypes1);
+            }
+        }*/
+
+        for(var temp in polygons){
+            var polygon0 = polygons[temp];
+            var len = polygon0.points.length;
+            for(var i = 0;i<len;i++){
+                if(polygon0.pointTypes[i]==0){
+                    var v0 = polygon0.points[i].sub(mp).normalize().scale(600*Math.sqrt(2));
+                    var p4 = polygon0.points[i].add(v0);
+
+                    var p0 = polygon0.points[(i-1+len)%len];
+                    var p1 = polygon0.points[(i+1)%len];
+                    var bool0 = IsPointInTriangle(polygon0.points[i],mp,p0,p1);
+                    if(!bool0){                        
+                        //drawLine(ctx,mp,p4,"#ffffff");
+                        var dis = Infinity;
+                        var pp = null;
+                        var aa = -1;
+                        var bb = -1;
+                        for(var temp0 in polygons){   
+                            if(temp!=temp0){
+                                var polygon1 = polygons[temp0];
+                                var len1 = polygon1.points.length;
+                                for(var j = 0;j<len1;j++){
+                                    if(polygon1.lineTypes[j]==0){
+                                        var p0 = polygon1.points[j];
+                                        var p1 = polygon1.points[(j+1)%len1];
+                                        //console.log(mp,polygon.points[i],p0,p1);
+                                        var obj01 = IsLineAtLine1(polygon0.points[i],p4,p0,p1);
+                                        if(obj01!=null){
+
+                                            var pp0 = polygon0.points[i].interpolation(p4,obj01.t0);
+                                            //console.log(pp.sub(p0).length())
+                                            var len0 = pp0.sub(polygon0.points[i]).length();
+                                            if(len0<dis){
+                                                aa = temp0;
+                                                bb = j;
+                                                dis = len0;
+                                                pp = pp0;
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if(pp){
+                            //console.log(pp==null)
+
+                            polygons[aa].linePoints[bb].push(pp);
+                            //if(temp==0 && i==2 && aa==2 && bb==1){
+                                //console.log(aa,bb)
+                                //
+                            //}
+                            drawLine(ctx,mp,pp,"#ff0000");
+                        }
+
+                        //drawLine(ctx,mp,p4,"#ff0000");
+                        
+
+                    }                    
+                }                 
+            }
+        }
+
+
+
+        
+
+        for(var temp in polygons){   
+            var polygon = polygons[temp]; 
+            var len = polygon.points.length;
+            for(var i = 0;i<len;i++){ 
+                if(polygon.lineTypes[i]==0){
+                    /*if(polygon.linePoints[i].length==0){
+                        //console.log(i)                        
+                        if(polygon.pointTypes[i]==0 && polygon.pointTypes[(i+1)%len]==0){
+                            polygon.linePoints[i].push(polygon.points[i]);
+                            polygon.linePoints[i].push(polygon.points[(i+1)%len]);
+                        }
+                    }else{*/
+                        if(polygon.pointTypes[i]==0){
+                            polygon.linePoints[i].push(polygon.points[i]);
+                        }
+                        if(polygon.pointTypes[(i+1)%len]==0){
+                            polygon.linePoints[i].push(polygon.points[(i+1)%len]);
+                        }
+                    //}                    
+                }
+            }
+        }
+
+        for(var temp in polygons){   
+            var polygon = polygons[temp]; 
+            var len = polygon.points.length;
+            for(var i = 0;i<len;i++){ 
+                if(polygon.lineTypes[i]==0){
+                    var p0 = polygon.points[i];
+                    var p1 = polygon.points[(i+1)%len];
+                    var pp = p0.sub(p1);
+                    /*if(temp==5 && i==1){
+                        console.log(pp.y,pp.x)
+                    }*/
+                    var sortF = (Math.abs(pp.y)>Math.abs(pp.x))?sortY:sortX;
+                    var len0 = polygon.linePoints.length;
+                    for(var j = 0;j<len0;j++){ 
+                        polygon.linePoints[j].sort(sortF);
+                    }
+                }
+            }
+        }
+
+        //console.log(polygons)
+        
+        for(var temp in polygons){   
+            var polygon = polygons[temp]; 
+            var len = polygon.points.length;
+            for(var i = 0;i<len;i++){ 
+                if(polygon.lineTypes[i]==0){
+                    var len0 = polygon.linePoints.length;
+                    for(var j = 0;j<len0;j++){ 
+                        var len1 = polygon.linePoints[j].length;
+                        /*if(len1>0 && len1<=1){
+                            console.log(polygon.linePoints[j][0])
+                        }*/
+                        if(len1%2==1 && temp==3){
+                        for(var k = 0;k<len1;k+=2){ 
+                            //drawLine(ctx,polygon.linePoints[j][k],polygon.linePoints[j][k+1],"#0000ff");
+
+                            //drawPolygon(ctx,[mp,polygon.linePoints[j][k],polygon.linePoints[j][k+1]],"#ffff00","fill");
+                            //drawCircle(ctx,polygon.linePoints[j][k],5,"#ff0000","fill");
+                        }
+                        /*for(var k = 0;k<len1;k+=2){
+                            drawLine(ctx,polygon.linePoints[j][k],polygon.linePoints[j][k+1],"#0000ff");
+                        }*/
+                        console.log(polygon.linePoints[j])
+                        for(var k = 0;k<len1;k++){                             
+                            drawCircle(ctx,polygon.linePoints[j][k],5,"#ff0000","fill");
+                        }
+                        }
+                    }
+                }
+            }
+        }
+
+        function sortX(a,b)
+        {
+            return a.x - b.x
+        }
+        function sortY(a,b)
+        {
+            return a.y - b.y
+        }
+        //console.log(polygons);
+        /*for(var temp in polygons){
+            var polygon = polygons[temp];
+            var len = polygon.points.length;
+            for(var i = 0;i<len;i++){    
+                var p0 = polygon.points[(i-1+len)%len];
+                var p1 = polygon.points[(i+1)%len];
+                var obj01 = IsLineAtLine0(mp,polygon.points[i],p0,p1);
+                if(obj01!=null){
+                    drawCircle(ctx,polygon.points[i],5,"#ff00ff","fill");
+                }else{
+                    var obj02 = aaa1(mp,polygon.points[i],polygons,temp);
+                    if(obj02==null){
+                        var bool2 = true;
+                        var len0 = polygon.points.length;
+                        for(var j = 0;j<len0;j++){
+                            if(i!=j){
+                                var AB = polygon.points[i].sub(mp);
+                                var AM = polygon.points[j].sub(mp);
+                                if(AB.cross(AM)==0 && AM.length()<AB.length()){
+                                    bool2 = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if(bool2){
+                            var bool0 = IsPointInTriangle(polygon.points[i],mp,p0,p1);
+                            if(bool0){
+                                drawCircle(ctx,polygon.points[i],5,"#0000ff","fill");
+                                drawLine(ctx,mp,polygon.points[i],"#0000ff");
+                            }else{        
+                                drawCircle(ctx,polygon.points[i],5,"#ffff00","fill");
+
+                                var v0 = polygon.points[i].sub(mp).normalize().scale(600);
+                                var p4 = polygon.points[i].add(v0); 
+                                obj03 = aaa1(polygon.points[i],p4,polygons,temp);
+                                if(obj03!=null){
+                                    var pp = polygon.points[i].interpolationV(v0,obj03.t0);
+                                    //drawLine(ctx,polygon.points[i],pp,"#ffffff");
+                                    drawLine(ctx,mp,pp,"#ffffff");
+                                }else{
+                                    drawLine(ctx,mp,polygon.points[i],"#ffff00");
+                                }
+                            }
+                        }else{                                
+                            drawCircle(ctx,polygon.points[i],5,"#00ff00","fill");
+                        }
+                    }else{
+                        drawCircle(ctx,polygon.points[i],5,"#ff0000","fill");
+                    }                    
+                }   
+            }
+        }*/
+        function aaa1(p0,p1,polygons,c){
+            //var bool2 = false;
+            var dis = Infinity;
+            var obj = null;
+            for(var temp0 in polygons){
+                if(c!=temp0){
+                    var polygon0 = polygons[temp0];
+                    var len0 = polygon0.points.length;
+                    for(var j = 0;j<len0;j++){                                 
+                        var p2 = polygon0.points[j];
+                        var p3 = polygon0.points[(j+1)%len0];
+                        var temp1 = IsLineAtLine0(p0,p1,p2,p3);
+                        //return temp1;
+                        if(temp1!=null){
+                            //console.log(p0,p1,temp1.t0);
+                            var pp = p0.interpolation(p1,temp1.t0);
+                            //console.log(pp.sub(p0).length())
+                            var len = pp.sub(p0).length();
+                            if(len<dis){
+                                dis = len;
+                                obj = temp1;
+                            }
+                            //console.log(temp0)
+                            //return temp1;
+                            //bool2 = true;
+                            //break;
+                        }
+                    }  
+                }
+            }
+            return obj;
+        }
+
+        for(var temp in polygons){   
+            var polygon = polygons[temp];        
+            drawPolygon(ctx,polygon.points,polygon.color,polygon.type);
+        }
+
+        for(var temp in polygons){   
+            var polygon = polygons[temp]; 
+            var len = polygon.points.length;
+            for(var i = 0;i<len;i++){      
+                var p0 = polygon.points[i];
+                var p1 = polygon.points[(i+1)%len];
+                if(polygon.lineTypes[i]==0){
+                    drawLine(ctx,p0,p1,"#00ffff");
+                }else if(polygon.lineTypes[i]==1){
+                    drawLine(ctx,p0,p1,"#ff0000");
+                }
+            }
+        }
+
+        for(var temp in polygons){   
+            var polygon = polygons[temp];
+            var len = polygon.points.length;
+            for(var i = 0;i<len;i++){ 
+                if(polygon.pointTypes[i]==0){
+                    //drawCircle(ctx,polygon.points[i],5,"#00ffff","fill");
+                    drawLine(ctx,mp,polygon.points[i],"#ffffff");
+                }else if(polygon.pointTypes[i]==1){
+                    //drawCircle(ctx,polygon.points[i],5,"#ff00ff","fill");
+                }   
+            }  
+        }
+
+        drawCircle(ctx,mp,5,"#0000ff","fill");
+
+
+        /*for(var temp in lightPolygons){
+            var lightPolygon = lightPolygons[temp];
+            drawPolygon(ctx,lightPolygon.points,lightPolygon.color,lightPolygon.type);
+        }*/
+        /*for(var temp in lines){
+            var line = lines[temp];
+            drawPolygon(ctx,line.points,line.color,line.type);
+        }*/
+        //particles.forEach(p => p.render(ctx));
+    }
+    function loop() {
+        update();
+        render();
+        requestAnimationFrame(loop);
+    }
+    function drawPolygon(ctx,points, color, type) {
+        //console.log(ctx)
+        //ctx.save();
+        ctx.beginPath();
+        for(var temp in points){
+            var point01 = points[temp];
+            ctx[temp==0?"moveTo":"lineTo"](point01.x, point01.y);
+        }        
+        ctx[type + 'Style'] = color;
+        ctx.closePath();
+        ctx[type]();
+        //ctx.restore();
+    }
+    function drawCircle(ctx,point,radius, color, type) {
+        //ctx.save();
+        ctx.beginPath();
+        ctx.arc(point.x,point.y,radius,0,2*Math.PI);
+        ctx[type + 'Style'] = color;
+        ctx.closePath();
+        ctx[type]();
+        //ctx.restore();
+    }
+    function drawLine(ctx,point01,point02, color,lineWidth) {
+        var type = "stroke";
+        ctx.beginPath();
+        if(lineWidth!=undefined){
+            ctx.lineWidth=lineWidth;
+        }else{
+            ctx.lineWidth=1;
+        }
+        ctx.moveTo(point01.x, point01.y);
+        ctx.lineTo(point02.x, point02.y);
+        ctx[type + 'Style'] = color;
+        ctx.closePath();
+        ctx[type]();
+    }
+
+
+
+
+    (function() {
+        //
+        canvas = document.getElementById('canvas');
+        ctx = canvas.getContext('2d');
+        w = window.innerWidth;
+        h = window.innerHeight;
+        /*canvas.width = w;
+        canvas.height = h;*/
+        canvas.addEventListener('mousemove', mousemove);
+        mousemove();
+        function mousemove(e){
+            if(e){
+                x = e.clientX;
+                y = e.clientY;                
+            }
+            /*x = 250;
+            y = 480;*/
+            /*x = 119;
+            y = 397;*/
+            /*x = 326;
+            y = 77;*/
+            x = 252;
+            y = 388;
+            console.log(x,y)
+        }
+        loop();
+    })()
+</script>
+<style>
+    body {
+        /*background-color: #000;*/
+        margin: 0;
+        overflow: hidden;
+    }
+    canvas {
+        background-color: #000;
+    }
+</style>
+
+</html>
